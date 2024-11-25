@@ -11,28 +11,28 @@ export interface ModuleConfig {
 }
 
 export function GetConfigFields(midi_input: Input): SomeCompanionConfigField[] {
-
-  const platform: string = os.platform()
-  const virtualSupported: boolean = (platform=='darwin') || (platform=='linux')
+	const platform: string = os.platform()
+	const virtualSupported: boolean = platform == 'darwin' || platform == 'linux'
 
 	const port_count = midi_input.getPortCount()
 	const midi_port_dropdown: CompanionInputFieldDropdown = {
 		type: 'dropdown',
 		id: 'midi_port_dropdown',
-		tooltip: 'The MIDI port that this module will listen to and push Companion buttons when a MIDI Note-On msg is recieved. Channel/Note/Intensity => page/row/column)',
-		label: 'Midi-Port Name',
+		tooltip:
+			'The MIDI port that this module will listen to and push Companion buttons when a MIDI Note-On msg is recieved. Channel/Note/Intensity => page/row/column)',
+		label: 'Midi Port Name',
 		choices: [],
 		default: '',
 	}
 	for (let portIndex = 0; portIndex < port_count; portIndex++) {
 		const port_name = midi_input.getPortName(portIndex)
-		midi_port_dropdown.choices.push({ id: port_name, label: port_name})
+		midi_port_dropdown.choices.push({ id: port_name, label: port_name })
 	}
 	if (virtualSupported) {
-    midi_port_dropdown.choices.push({ id: 'virtual', label: 'Custom Virtual Port'})
+		midi_port_dropdown.choices.push({ id: 'virtual', label: 'Custom Virtual Port' })
 		midi_port_dropdown.default = 'virtual'
 	} else {
-		midi_port_dropdown.default = midi_input.getPortName(0);
+		midi_port_dropdown.default = midi_input.getPortName(0)
 	}
 
 	return [
@@ -59,8 +59,8 @@ export function GetConfigFields(midi_input: Input): SomeCompanionConfigField[] {
 			id: 'virtual_midi_port_name',
 			label: 'Virtual Midi Port Name',
 			width: 4,
-			isVisible: ((options) => options.midi_port_dropdown == 'virtual'),
-			default: 'CompanionMIDIButtonPresser'
+			isVisible: (options) => options.midi_port_dropdown == 'virtual',
+			default: 'CompanionMIDIButtonPresser',
 		},
 		{
 			type: 'number',
@@ -70,6 +70,6 @@ export function GetConfigFields(midi_input: Input): SomeCompanionConfigField[] {
 			min: 0,
 			max: 500,
 			default: 0,
-		}
+		},
 	]
 }
